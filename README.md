@@ -1,2 +1,3 @@
-# Co-Op Snake 2D_MAT-I_Outscal
- 
+# MAT-I Co-Op Snake 2D
+
+### Outscal - Full Stack Game Development - Unity Fundamentals
