@@ -8,7 +8,13 @@ public class SnakeHeadController : MonoBehaviour
     public GameObject SnakeBodyPrefab;
 
     private int h_direction, v_direction;
-    private GameObject tail;
+    private SnakeBodySpawner snakeBodySpawner;
+    private GameWorldController gameWorldController;
+
+    public void SetGameWorldController(GameWorldController _gameWorldController)
+    {
+        gameWorldController = _gameWorldController;
+    }
 
     void Awake()
     {
@@ -20,18 +26,16 @@ public class SnakeHeadController : MonoBehaviour
 
     void Start()
     {
-
-        tail = Instantiate(SnakeBodyPrefab);
-        tail.GetComponent<SnakeBodyController>().Spawn(gameObject);
-
+        snakeBodySpawner = new SnakeBodySpawner(SnakeBodyPrefab);
+        snakeBodySpawner.Spawn(gameObject);
     }
 
     void LateUpdate()
     {
-        updateSnakePosition();
+        UpdatePosition();
     }
 
-    void updateSnakePosition()
+    void UpdatePosition()
     {
 
         Transform transform = gameObject.GetComponent<Transform>();
@@ -42,16 +46,34 @@ public class SnakeHeadController : MonoBehaviour
         {
             position.x += h_direction * Time.deltaTime;
             eulerAngles = new Vector3(0, 0, 90 * h_direction * -1);
-
+            position = WrapPosition(position);
         }
         else
         {
             position.y += v_direction * Time.deltaTime;
             eulerAngles = new Vector3(0, 0, v_direction == 1 ? 0 : 180);
+            position = WrapPosition(position);
         }
+
+        snakeBodySpawner.UpdatePosition();
 
         transform.position = position;
         transform.eulerAngles = eulerAngles;
+
+    }
+
+    Vector3 WrapPosition(Vector3 position)
+    {
+        if (position.x < gameWorldController.GetLeftEdgePosition())
+            position.x = gameWorldController.GetRightEdgePosition();
+        else if (position.x > gameWorldController.GetRightEdgePosition())
+            position.x = gameWorldController.GetLeftEdgePosition();
+        else if (position.y < gameWorldController.GetBottomEdgePosition())
+            position.y = gameWorldController.GetTopEdgePosition();
+        else if (position.y > gameWorldController.GetTopEdgePosition())
+            position.y = gameWorldController.GetBottomEdgePosition();
+
+        return position;
 
     }
 

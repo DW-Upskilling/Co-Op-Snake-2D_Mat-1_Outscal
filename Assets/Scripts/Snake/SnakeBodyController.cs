@@ -7,42 +7,22 @@ public class SnakeBodyController : MonoBehaviour
 
     public GameObject SnakeBodyPrefab;
 
-    private GameObject previousSnakeBody, nextSnakeBody;
+    private GameObject previous, next;
 
-    public void Spawn(GameObject previous)
+    public void SetParent(GameObject parent)
     {
-        Vector3 position = new Vector3(
-            previous.transform.position.x - 1.05f,
-            previous.transform.position.y,
-            previous.transform.position.z
-        );
-        gameObject.GetComponent<Transform>().position = position;
-
-        Vector3 eulerAngles = new Vector3(
-            previous.transform.eulerAngles.x,
-            previous.transform.eulerAngles.y,
-            previous.transform.eulerAngles.z
-        );
-        gameObject.GetComponent<Transform>().eulerAngles = eulerAngles;
+        previous = parent;
+    }
+    public void SetChild(GameObject child)
+    {
+        next = child;
     }
 
-    public void UpdatePosition(Vector3 position)
+    public void UpdatePosition()
     {
-        Vector3 currentPosition = new Vector3(
-            position.x - 1.05f,
-            position.y,
-            position.z
-        );
-        gameObject.GetComponent<Transform>().position = currentPosition;
-    }
-
-    public void UpdateEulerAngles(Vector3 eulerAngles)
-    {
-        Vector3 currentEulerAngles = new Vector3(
-            eulerAngles.x,
-            eulerAngles.y,
-            eulerAngles.z
-        );
-        gameObject.GetComponent<Transform>().eulerAngles = currentEulerAngles;
+        if (previous.GetComponent<SnakeBodyController>() != null)
+        {
+            previous.GetComponent<SnakeBodyController>().UpdatePosition();
+        }
     }
 }

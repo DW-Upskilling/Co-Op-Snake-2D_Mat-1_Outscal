@@ -5,41 +5,42 @@ using UnityEngine;
 public class GameWorldController : MonoBehaviour
 {
 
+    private float screenWidth, screenHeight;
+
     public Camera mainCamera;
     public float objectLength;
-    void Awake()
+    void Start()
     {
         // Set position of the GameWorld to the center of screen
         transform.position = new Vector3(0, 0, 0);
 
-        Vector3 cameraPosition = mainCamera.transform.position;
-        float cameraDistance = Vector3.Distance(cameraPosition, transform.position);
+        float screenHalfWidth = mainCamera.orthographicSize * Screen.width / Screen.height;
 
-        float objectHeight = 2f * Mathf.Tan(mainCamera.fieldOfView * 0.5f * Mathf.Deg2Rad) * cameraDistance;
-        float objectWidth = objectHeight * mainCamera.aspect;
+        screenWidth = screenHalfWidth * 2;
+        screenHeight = mainCamera.orthographicSize * 2;
 
-        transform.localScale = new Vector3(objectWidth, objectHeight, 1f);
+        transform.localScale = new Vector3(screenWidth / 2, screenHeight / 2, 1f);
 
     }
 
     public float GetRightEdgePosition()
     {
-        return 15f;
+        return screenWidth / 2;
     }
 
     public float GetLeftEdgePosition()
     {
-        return -15f;
+        return -screenWidth / 2;
     }
 
     public float GetTopEdgePosition()
     {
-        return 7.5f;
+        return screenHeight / 2;
     }
 
     public float GetBottomEdgePosition()
     {
-        return -7.5f;
+        return -screenHeight / 2;
     }
 
 }
