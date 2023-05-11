@@ -10,9 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 5684056175135315403}
   - component: {fileID: 5788317685103608340}
-  - component: {fileID: 3875219252030066603}
+  - component: {fileID: 545055205265845818}
+  - component: {fileID: 4869961359593078980}
   m_Layer: 0
-  m_Name: Snake
+  m_Name: SnakeHead
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -85,7 +86,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &3875219252030066603
+--- !u!114 &545055205265845818
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -94,6 +95,65 @@ MonoBehaviour:
   m_GameObject: {fileID: 5684056175135315400}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a49e599285fb4f042904c4a9bbd526e2, type: 3}
+  m_Script: {fileID: 11500000, guid: 3e9c672b84defb640b37656b2108bf08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SnakeBodyPrefab: {fileID: 7575240939805497617, guid: 79d9376debfb3ee42b6fe746985c3ace, type: 3}
+--- !u!60 &4869961359593078980
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5684056175135315400}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1.4222223, y: 1.4222223}
+    newSize: {x: 1.4222223, y: 1.4222223}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: 0.38333336, y: -0.46111113}
+      - {x: 0.43333334, y: -0.35}
+      - {x: 0.45555556, y: -0.24444444}
+      - {x: 0.45555556, y: -0.1}
+      - {x: 0.44444445, y: 0.03888889}
+      - {x: 0.4888889, y: 0.06666667}
+      - {x: 0.4888889, y: 0.19444445}
+      - {x: 0.40555558, y: 0.28333333}
+      - {x: 0.3888889, y: 0.31666666}
+      - {x: 0.34444445, y: 0.39444447}
+      - {x: 0.25, y: 0.44444445}
+      - {x: 0.14444445, y: 0.4888889}
+      - {x: 0.1, y: 0.49444446}
+      - {x: -0.027777778, y: 0.49444446}
+      - {x: -0.07777778, y: 0.4888889}
+      - {x: -0.14444445, y: 0.47222224}
+      - {x: -0.21666667, y: 0.45000002}
+      - {x: -0.31666666, y: 0.38333336}
+      - {x: -0.38333336, y: 0.2888889}
+      - {x: -0.47777778, y: 0.22777778}
+      - {x: -0.49444446, y: 0.16111112}
+      - {x: -0.49444446, y: 0.07777778}
+      - {x: -0.45000002, y: 0.027777778}
+      - {x: -0.45555556, y: -0.17777778}
+      - {x: -0.4388889, y: -0.29444444}
+      - {x: -0.40555558, y: -0.3888889}
+      - {x: -0.31666666, y: -0.51666665}
+      - {x: -0.18888889, y: -0.56666666}
+      - {x: -0.10555556, y: -0.5833334}
+      - {x: 0.10555556, y: -0.5833334}
+      - {x: 0.1388889, y: -0.5777778}
+      - {x: 0.25555557, y: -0.55}
+      - {x: 0.33888888, y: -0.51666665}
