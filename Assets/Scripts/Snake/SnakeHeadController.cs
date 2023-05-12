@@ -18,7 +18,7 @@ public class SnakeHeadController : MonoBehaviour
 
     void Awake()
     {
-        gameObject.GetComponent<Transform>().position = new Vector3(0, 0, 0);
+        gameObject.GetComponent<Transform>().position = new Vector3(0, 0, -1);
 
         h_direction = 1;
         v_direction = 0;
@@ -27,17 +27,22 @@ public class SnakeHeadController : MonoBehaviour
     void Start()
     {
         snakeBodySpawner = new SnakeBodySpawner(SnakeBodyPrefab);
-        snakeBodySpawner.Spawn(gameObject);
+        // snakeBodySpawner.Spawn(gameObject);
+
+        for (int i = 0; i < 10; i++)
+        {
+            // snakeBodySpawner.Spawn();
+        }
     }
 
     void LateUpdate()
     {
         UpdatePosition();
+        snakeBodySpawner.UpdatePosition();
     }
 
     void UpdatePosition()
     {
-
         Transform transform = gameObject.GetComponent<Transform>();
         Vector3 position = transform.position;
         Vector3 eulerAngles = transform.eulerAngles;
@@ -55,11 +60,8 @@ public class SnakeHeadController : MonoBehaviour
             position = WrapPosition(position);
         }
 
-        snakeBodySpawner.UpdatePosition();
-
         transform.position = position;
         transform.eulerAngles = eulerAngles;
-
     }
 
     Vector3 WrapPosition(Vector3 position)
@@ -74,7 +76,6 @@ public class SnakeHeadController : MonoBehaviour
             position.y = gameWorldController.GetBottomEdgePosition();
 
         return position;
-
     }
 
     public void PositionHandler(float horizontal, float vertical)

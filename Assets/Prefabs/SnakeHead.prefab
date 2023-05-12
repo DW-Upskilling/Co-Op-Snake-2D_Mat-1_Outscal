@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 5788317685103608340}
   - component: {fileID: 545055205265845818}
   - component: {fileID: 4869961359593078980}
-  m_Layer: 0
+  - component: {fileID: -7957878953093961154}
+  m_Layer: 6
   m_Name: SnakeHead
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -157,3 +158,24 @@ PolygonCollider2D:
       - {x: 0.1388889, y: -0.5777778}
       - {x: 0.25555557, y: -0.55}
       - {x: 0.33888888, y: -0.51666665}
+--- !u!50 &-7957878953093961154
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5684056175135315400}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 7

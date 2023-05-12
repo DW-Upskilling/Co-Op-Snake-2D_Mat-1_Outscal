@@ -169,7 +169,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &519420028
 GameObject:
@@ -248,7 +248,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 0, y: 0, z: -99}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -266,6 +266,7 @@ GameObject:
   - component: {fileID: 616324051}
   - component: {fileID: 616324050}
   - component: {fileID: 616324052}
+  - component: {fileID: 616324053}
   m_Layer: 0
   m_Name: Game World
   m_TagString: Untagged
@@ -333,12 +334,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 616324049}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 99}
   m_LocalScale: {x: 0.6580118, y: 0.56541425, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &616324052
 MonoBehaviour:
@@ -354,3 +355,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainCamera: {fileID: 519420031}
   objectLength: 0.1
+--- !u!114 &616324053
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 616324049}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e31c2d1a63cdbf24db3cac532a569c0b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ConsumablePrefab: {fileID: 6439583768740550315, guid: 5d323531de90bed43baca1e83a297408, type: 3}
+  GameWorldController: {fileID: 616324052}
+  players:
+  - {fileID: 101663319}
+  FoodSprite:
+  - {fileID: 21300000, guid: 4634d87584aafe546b622ae2f6e5b9ac, type: 3}
+  - {fileID: 21300000, guid: 1fc7d2784f39bca4e9158ea31427d79a, type: 3}
+  - {fileID: 21300000, guid: 3dc9277b4d7254c4bb24a43248eea086, type: 3}

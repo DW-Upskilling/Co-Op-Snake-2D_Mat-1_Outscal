@@ -38,4 +38,9 @@ public class PlayerController : MonoBehaviour
 
         snakeHead.GetComponent<SnakeHeadController>().PositionHandler(horizontal, vertical);
     }
+
+    public bool isAlive()
+    {
+        return true;
+    }
 }
