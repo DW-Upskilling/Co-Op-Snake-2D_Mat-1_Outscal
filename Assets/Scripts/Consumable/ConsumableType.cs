@@ -1,6 +1,6 @@
 public enum ConsumableType
 {
-    Gainer,
     Burner,
-    Powerup
+    Gainer,
+    PowerUp
 }

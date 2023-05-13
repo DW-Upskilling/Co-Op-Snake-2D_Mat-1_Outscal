@@ -1,19 +1,12 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class SnakeHeadController : MonoBehaviour
 {
-
-    public GameObject SnakeBodyPrefab;
+    public SnakeBodySpawner SnakeBodySpawner;
 
     private int h_direction, v_direction;
-    private SnakeBodySpawner snakeBodySpawner;
-    private GameWorldController gameWorldController;
-    private PlayerController playerController;
-    public GameWorldController GameWorldController { set { gameWorldController = value; } }
-    public PlayerController PlayerController { set { playerController = value; } }
 
     void Awake()
     {
@@ -21,25 +14,15 @@ public class SnakeHeadController : MonoBehaviour
         v_direction = 0;
     }
 
-    void Start()
+    void OnEnable()
     {
         gameObject.GetComponent<Transform>().position = new Vector3(0, 0, -1);
-        UpdatePosition();
-
-        snakeBodySpawner = new SnakeBodySpawner(SnakeBodyPrefab, playerController, gameWorldController);
-        snakeBodySpawner.Spawn(gameObject);
-
-        // IncrementSnakeBody(25);
     }
 
-    void LateUpdate()
+    void Update()
     {
-        UpdatePosition();
-        snakeBodySpawner.UpdatePosition();
-    }
+        Debug.Log(h_direction + "\t" + v_direction);
 
-    void UpdatePosition()
-    {
         Transform transform = gameObject.GetComponent<Transform>();
         Vector3 position = transform.position;
         Vector3 eulerAngles = transform.eulerAngles;
@@ -61,18 +44,9 @@ public class SnakeHeadController : MonoBehaviour
         transform.eulerAngles = eulerAngles;
     }
 
-    Vector3 WrapPosition(Vector3 position)
+    void OnDestroy()
     {
-        if (position.x < gameWorldController.GetLeftEdgePosition())
-            position.x = gameWorldController.GetRightEdgePosition();
-        else if (position.x > gameWorldController.GetRightEdgePosition())
-            position.x = gameWorldController.GetLeftEdgePosition();
-        else if (position.y < gameWorldController.GetBottomEdgePosition())
-            position.y = gameWorldController.GetTopEdgePosition();
-        else if (position.y > gameWorldController.GetTopEdgePosition())
-            position.y = gameWorldController.GetBottomEdgePosition();
-
-        return position;
+        Destroy(gameObject);
     }
 
     public void PositionHandler(float horizontal, float vertical)
@@ -97,31 +71,22 @@ public class SnakeHeadController : MonoBehaviour
         }
     }
 
-    public void IncrementSnakeBody(int size)
+    Vector3 WrapPosition(Vector3 position)
     {
-        if (snakeBodySpawner == null)
-            throw new Exception("snakeBodySpawner is null!");
-        for (int i = 0; i < size; i++)
-        {
-            snakeBodySpawner.Spawn();
-        }
-    }
+        if (GameWorld.Instance == null)
+            return position;
 
-    public void DecrementSnakeBody(int size)
-    {
-        if (snakeBodySpawner == null)
-            throw new Exception("snakeBodySpawner is null!");
-        for (int i = 0; i < size; i++)
-        {
-            snakeBodySpawner.DeSpawn();
-        }
-    }
+        GameWorld gameWorld = GameWorld.Instance;
 
-    public void Kill(GameObject gameObject)
-    {
-        // for (int i = 0; i < snakeBodySpawner.Length; i++)
-        // {
-        //     snakeBodySpawner.DeSpawn();
-        // }
+        if (position.x < gameWorld.GetLeftEdgePosition())
+            position.x = gameWorld.GetRightEdgePosition();
+        else if (position.x > gameWorld.GetRightEdgePosition())
+            position.x = gameWorld.GetLeftEdgePosition();
+        else if (position.y < gameWorld.GetBottomEdgePosition())
+            position.y = gameWorld.GetTopEdgePosition();
+        else if (position.y > gameWorld.GetTopEdgePosition())
+            position.y = gameWorld.GetBottomEdgePosition();
+
+        return position;
     }
 }
