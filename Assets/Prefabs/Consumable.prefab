@@ -18,7 +18,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &3208177418495336458
 Transform:
@@ -47,8 +47,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6ef9458614c11c4fa22e19386f75d86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GameWorldController: {fileID: 0}
-  ConsumableSpawner: {fileID: 0}
+  gameWorldController: {fileID: 0}
+  consumableSpawner: {fileID: 0}
+  consumableType: 0
 --- !u!212 &6757753819127507788
 SpriteRenderer:
   m_ObjectHideFlags: 0

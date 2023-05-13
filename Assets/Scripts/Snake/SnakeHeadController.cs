@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,29 +11,25 @@ public class SnakeHeadController : MonoBehaviour
     private int h_direction, v_direction;
     private SnakeBodySpawner snakeBodySpawner;
     private GameWorldController gameWorldController;
-
-    public void SetGameWorldController(GameWorldController _gameWorldController)
-    {
-        gameWorldController = _gameWorldController;
-    }
+    private PlayerController playerController;
+    public GameWorldController GameWorldController { set { gameWorldController = value; } }
+    public PlayerController PlayerController { set { playerController = value; } }
 
     void Awake()
     {
-        gameObject.GetComponent<Transform>().position = new Vector3(0, 0, -1);
-
         h_direction = 1;
         v_direction = 0;
     }
 
     void Start()
     {
-        snakeBodySpawner = new SnakeBodySpawner(SnakeBodyPrefab);
-        // snakeBodySpawner.Spawn(gameObject);
+        gameObject.GetComponent<Transform>().position = new Vector3(0, 0, -1);
+        UpdatePosition();
 
-        for (int i = 0; i < 10; i++)
-        {
-            // snakeBodySpawner.Spawn();
-        }
+        snakeBodySpawner = new SnakeBodySpawner(SnakeBodyPrefab, playerController, gameWorldController);
+        snakeBodySpawner.Spawn(gameObject);
+
+        // IncrementSnakeBody(25);
     }
 
     void LateUpdate()
@@ -50,16 +47,16 @@ public class SnakeHeadController : MonoBehaviour
         if (h_direction != 0)
         {
             position.x += h_direction * Time.deltaTime;
-            eulerAngles = new Vector3(0, 0, 90 * h_direction * -1);
-            position = WrapPosition(position);
+            eulerAngles = new Vector3(0, 0, h_direction == 1 ? 270 : 90);
         }
         else
         {
             position.y += v_direction * Time.deltaTime;
             eulerAngles = new Vector3(0, 0, v_direction == 1 ? 0 : 180);
-            position = WrapPosition(position);
+
         }
 
+        position = WrapPosition(position);
         transform.position = position;
         transform.eulerAngles = eulerAngles;
     }
@@ -98,5 +95,33 @@ public class SnakeHeadController : MonoBehaviour
             v_direction = _v_direction;
             h_direction = 0;
         }
+    }
+
+    public void IncrementSnakeBody(int size)
+    {
+        if (snakeBodySpawner == null)
+            throw new Exception("snakeBodySpawner is null!");
+        for (int i = 0; i < size; i++)
+        {
+            snakeBodySpawner.Spawn();
+        }
+    }
+
+    public void DecrementSnakeBody(int size)
+    {
+        if (snakeBodySpawner == null)
+            throw new Exception("snakeBodySpawner is null!");
+        for (int i = 0; i < size; i++)
+        {
+            snakeBodySpawner.DeSpawn();
+        }
+    }
+
+    public void Kill(GameObject gameObject)
+    {
+        // for (int i = 0; i < snakeBodySpawner.Length; i++)
+        // {
+        //     snakeBodySpawner.DeSpawn();
+        // }
     }
 }

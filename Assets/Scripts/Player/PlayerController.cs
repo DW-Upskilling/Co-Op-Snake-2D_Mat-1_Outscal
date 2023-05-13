@@ -7,6 +7,9 @@ public class PlayerController : MonoBehaviour
     public string InputHorizontalName, InputVerticalName;
     public GameWorldController gameWorldController;
 
+    private GameMode gameMode;
+    public GameMode GameMode { get { return gameMode; } set { gameMode = value; } }
+
     private GameObject snakeHead;
 
     void Awake()
@@ -17,7 +20,8 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         snakeHead = Instantiate(SnakeHeadPrefab);
-        snakeHead.GetComponent<SnakeHeadController>().SetGameWorldController(gameWorldController);
+        snakeHead.GetComponent<SnakeHeadController>().GameWorldController = gameWorldController;
+        snakeHead.GetComponent<SnakeHeadController>().PlayerController = gameObject.GetComponent<PlayerController>();
     }
 
     void Update()

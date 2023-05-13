@@ -5,7 +5,9 @@ public class ConsumableSpawner : MonoBehaviour
     public GameObject ConsumablePrefab;
     public GameWorldController GameWorldController;
     public PlayerController[] players;
-    public Sprite[] FoodSprite;
+    public Sprite[] GainerFoodSprite;
+    public Sprite[] BurnerFoodSprite;
+    public Sprite[] BoostFoodSprite;
 
     void Awake()
     {
@@ -39,12 +41,24 @@ public class ConsumableSpawner : MonoBehaviour
 
     public void Spawn()
     {
-
         ConsumableController consumable = Instantiate(ConsumablePrefab).GetComponent<ConsumableController>();
-        consumable.GameWorldController = GameWorldController;
-        consumable.ConsumableSpawner = gameObject.GetComponent<ConsumableSpawner>();
 
-        consumable.SetSprite(FoodSprite[Random.Range(0, FoodSprite.Length)]);
+        consumable.gameWorldController = GameWorldController;
+        consumable.consumableSpawner = gameObject.GetComponent<ConsumableSpawner>();
+
+        int index = Random.Range(0, 2);
+
+        if (index == 1)
+        {
+            consumable.consumableType = ConsumableType.Burner;
+            consumable.SetSprite(BurnerFoodSprite[Random.Range(0, BurnerFoodSprite.Length)]);
+        }
+        else
+        {
+            consumable.consumableType = ConsumableType.Gainer;
+            consumable.SetSprite(GainerFoodSprite[Random.Range(0, GainerFoodSprite.Length)]);
+        }
+
         consumable.SetRandomPosition();
 
     }
