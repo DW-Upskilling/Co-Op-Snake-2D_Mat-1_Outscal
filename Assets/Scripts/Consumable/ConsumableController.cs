@@ -4,12 +4,26 @@ using UnityEngine;
 
 public class ConsumableController : MonoBehaviour
 {
+    public ConsumableType ConsumableType
+    {
+        set { consumableType = value; }
+        get { return consumableType; }
+    }
+    public ConsumablePowerUpType ConsumablePowerUpType
+    {
+        set { consumablePowerUpType = value; }
+        get { return consumablePowerUpType; }
+    }
+    public float PowerUpCoolDown
+    {
+        set { powerUpCoolDown = value; }
+        get { return powerUpCoolDown; }
+    }
+    public Sprite Sprite { set { SetSprite(value); } }
+
     private ConsumableType consumableType;
     private ConsumablePowerUpType consumablePowerUpType;
-
-    public ConsumableType ConsumableType { set { consumableType = value; } get { return consumableType; } }
-    public ConsumablePowerUpType ConsumablePowerUpType { set { consumablePowerUpType = value; } get { return consumablePowerUpType; } }
-    public Sprite Sprite { set { SetSprite(value); } }
+    private float powerUpCoolDown = 3;
 
     void Start()
     {

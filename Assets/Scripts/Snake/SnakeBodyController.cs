@@ -4,8 +4,21 @@ using UnityEngine;
 
 public class SnakeBodyController : MonoBehaviour
 {
-    public Vector3 Position { set { gameObject.GetComponent<Transform>().position = value; } get { return gameObject.GetComponent<Transform>().position; } }
-    public Vector3 EulerAngles { set { gameObject.GetComponent<Transform>().eulerAngles = value; } get { return gameObject.GetComponent<Transform>().eulerAngles; } }
+    public Vector3 Position
+    {
+        set { gameObject.GetComponent<Transform>().position = value; }
+        get { return gameObject.GetComponent<Transform>().position; }
+    }
+    public Vector3 EulerAngles
+    {
+        set { gameObject.GetComponent<Transform>().eulerAngles = value; }
+        get { return gameObject.GetComponent<Transform>().eulerAngles; }
+    }
+    public Quaternion Rotation
+    {
+        set { gameObject.GetComponent<Transform>().rotation = value; }
+        get { return gameObject.GetComponent<Transform>().rotation; }
+    }
 
     void Awake()
     {
@@ -16,7 +29,17 @@ public class SnakeBodyController : MonoBehaviour
     {
         if (collider.gameObject.GetComponent<SnakeHeadController>() != null)
         {
-            Debug.Log("Oops Touched the grass");
+            SnakeHeadController snakeHead = collider.gameObject.GetComponent<SnakeHeadController>();
+
+            if (snakeHead.ConsumablePowerUpTypeFind(ConsumablePowerUpType.Shield) == ConsumablePowerUpType.Shield)
+                return;
+
+            if (snakeHead.GetComponentInParent<PlayerController>() != null)
+            {
+                PlayerController player = snakeHead.GetComponentInParent<PlayerController>();
+
+                player.GameOver();
+            }
         }
     }
 }

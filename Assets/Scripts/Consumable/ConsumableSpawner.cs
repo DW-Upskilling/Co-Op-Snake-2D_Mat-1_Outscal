@@ -68,6 +68,7 @@ public class ConsumableSpawner : MonoBehaviour
         // Instantiate the consumable prefab
         ConsumableController consumable = Instantiate(ConsumablePrefab).GetComponent<ConsumableController>();
         consumable.ConsumableType = ConsumableType.PowerUp;
+        consumable.PowerUpCoolDown = powerUpCoolDown;
 
         switch (consumablePowerUpType)
         {

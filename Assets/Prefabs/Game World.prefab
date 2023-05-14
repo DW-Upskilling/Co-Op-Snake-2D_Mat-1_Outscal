@@ -160,6 +160,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 183f3e76eeeaa2040a4b892eeb902f85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  GameOverSceneBuildIndex: 4
   mainCamera: {fileID: 0}
   playerControllers:
   - {fileID: 0}
