@@ -19,6 +19,11 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    void Awake()
+    {
+        AudioManager.Instance.Play("Spawn");
+    }
+
     void Start()
     {
         SnakeHeadController.Position = position;
@@ -41,6 +46,6 @@ public class PlayerController : MonoBehaviour
     {
         if (WorldController == null)
             return;
-        // WorldController.GameOver();
+        WorldController.GameOver();
     }
 }

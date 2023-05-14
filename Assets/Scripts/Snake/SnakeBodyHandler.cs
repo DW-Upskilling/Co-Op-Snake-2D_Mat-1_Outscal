@@ -11,6 +11,7 @@ public class SnakeBodyHandler : MonoBehaviour
     private List<GameObject> snakeBody;
     private List<Vector3> snakeBodyPosition;
     private List<Quaternion> snakeBodyRotation;
+    private int scoreMultiplier = 1;
 
     void OnEnable()
     {
@@ -96,9 +97,9 @@ public class SnakeBodyHandler : MonoBehaviour
         SnakeHeadController snakeHead = gameObject.GetComponent<SnakeHeadController>();
         if (snakeHead != null && snakeHead.ConsumablePowerUpTypeFind(ConsumablePowerUpType.ScoreBoost) == ConsumablePowerUpType.ScoreBoost)
         {
-            ScoreController.Increment(2);
+            scoreMultiplier = 2;
         }
-        else ScoreController.Increment();
+
         snakeBody.Add(_snakeBody);
     }
 
@@ -112,6 +113,7 @@ public class SnakeBodyHandler : MonoBehaviour
 
     public void Consume(ConsumableController consumable)
     {
+        AudioManager.Instance.Play("Consume");
         switch (consumable.ConsumableType)
         {
             case ConsumableType.Burner:
@@ -119,9 +121,11 @@ public class SnakeBodyHandler : MonoBehaviour
                 break;
             case ConsumableType.Gainer:
                 Spawn();
+                ScoreController.Increment(1 * scoreMultiplier);
                 break;
             case ConsumableType.PowerUp:
                 ActivatePowerUp(consumable);
+                ScoreController.Increment(10 * scoreMultiplier);
                 break;
         }
     }
@@ -141,6 +145,8 @@ public class SnakeBodyHandler : MonoBehaviour
                 snakeHead.ConsumablePowerUpTypeAdd(ConsumablePowerUpType.SpeedUp);
                 break;
         }
+
+        StartCoroutine(DeActivatePowerUp(consumable, consumable.ConsumablePowerUpType));
 
     }
 

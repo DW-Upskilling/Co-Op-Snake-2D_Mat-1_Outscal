@@ -853,6 +853,7 @@ GameObject:
   - component: {fileID: 1365347085}
   - component: {fileID: 1365347084}
   - component: {fileID: 1365347088}
+  - component: {fileID: 1365347089}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -959,6 +960,14 @@ MonoBehaviour:
   MultiPlayer: {fileID: 153177329}
   SinglePlayerSceneBuildIndex: 2
   MultiPlayerSceneBuildIndex: 3
+--- !u!81 &1365347089
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1365347083}
+  m_Enabled: 1
 --- !u!1 &1886768266
 GameObject:
   m_ObjectHideFlags: 0

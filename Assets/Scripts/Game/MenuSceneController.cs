@@ -11,6 +11,7 @@ public class MenuSceneController : MonoBehaviour
 
     void Awake()
     {
+        AudioManager.Instance.Play("Whoosh");
         if (SinglePlayer != null)
             SinglePlayer.onClick.AddListener(LoadSinglePlayerScene);
         if (MultiPlayer != null)
@@ -19,12 +20,14 @@ public class MenuSceneController : MonoBehaviour
 
     void LoadSinglePlayerScene()
     {
+        AudioManager.Instance.Play("ButtonClick");
         if (SinglePlayerSceneBuildIndex > 0 && SinglePlayerSceneBuildIndex < SceneManager.sceneCountInBuildSettings)
             SceneManager.LoadSceneAsync(SinglePlayerSceneBuildIndex);
     }
 
     void LoadMultiPlayerScene()
     {
+        AudioManager.Instance.Play("ButtonClick");
         if (MultiPlayerSceneBuildIndex > 0 && MultiPlayerSceneBuildIndex < SceneManager.sceneCountInBuildSettings)
             SceneManager.LoadSceneAsync(MultiPlayerSceneBuildIndex);
     }

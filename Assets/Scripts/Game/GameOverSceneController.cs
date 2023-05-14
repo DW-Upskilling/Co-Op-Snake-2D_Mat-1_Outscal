@@ -9,12 +9,14 @@ public class GameOverSceneController : MonoBehaviour
 
     void Awake()
     {
+        AudioManager.Instance.Play("Whoosh");
         if (MenuButton != null)
             MenuButton.onClick.AddListener(LoadMenuScene);
     }
 
     void LoadMenuScene()
     {
+        AudioManager.Instance.Play("ButtonClick");
         if (MenuSceneBuildIndex > 0 && MenuSceneBuildIndex < SceneManager.sceneCountInBuildSettings)
             SceneManager.LoadSceneAsync(MenuSceneBuildIndex);
     }
