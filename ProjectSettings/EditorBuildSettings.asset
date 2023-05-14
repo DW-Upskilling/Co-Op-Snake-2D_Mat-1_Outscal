@@ -9,6 +9,15 @@ EditorBuildSettings:
     path: Assets/Scenes/InitialScene.unity
     guid: bad87f9db5e75a54389984a20ed58eec
   - enabled: 1
-    path: Assets/Scenes/GameScene.unity
+    path: Assets/Scenes/MenuScene.unity
+    guid: 006bded683cced045b00f4ee60c75d6d
+  - enabled: 1
+    path: Assets/Scenes/GameScene SinglePlayer.unity
     guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/Scenes/GameScene MultiPlayer.unity
+    guid: d4f4dbc040232ad4592160483e9e9caf
+  - enabled: 1
+    path: Assets/Scenes/GameOver.unity
+    guid: ef431f273f1c05a41bf8cfe19cd8c17b
   m_configObjects: {}

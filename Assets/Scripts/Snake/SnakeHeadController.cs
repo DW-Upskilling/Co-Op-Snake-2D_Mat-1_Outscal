@@ -1,78 +1,82 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class SnakeHeadController : MonoBehaviour
 {
-
-    public GameObject SnakeBodyPrefab;
+    public SnakeBodyHandler SnakeBodyHandler;
+    public Vector3 Position
+    {
+        set { gameObject.GetComponent<Transform>().position = value; }
+        get { return gameObject.GetComponent<Transform>().position; }
+    }
+    public Vector3 EulerAngles
+    {
+        set { gameObject.GetComponent<Transform>().eulerAngles = value; }
+        get { return gameObject.GetComponent<Transform>().eulerAngles; }
+    }
+    public Quaternion Rotation
+    {
+        set { gameObject.GetComponent<Transform>().rotation = value; }
+        get { return gameObject.GetComponent<Transform>().rotation; }
+    }
 
     private int h_direction, v_direction;
-    private SnakeBodySpawner snakeBodySpawner;
-    private GameWorldController gameWorldController;
-    private PlayerController playerController;
-    public GameWorldController GameWorldController { set { gameWorldController = value; } }
-    public PlayerController PlayerController { set { playerController = value; } }
+    private Vector3 position, eulerAngles;
+    private List<ConsumablePowerUpType> consumablePowerUpType;
 
     void Awake()
     {
         h_direction = 1;
         v_direction = 0;
+        consumablePowerUpType = new List<ConsumablePowerUpType>();
     }
 
-    void Start()
+    void Update()
     {
-        gameObject.GetComponent<Transform>().position = new Vector3(0, 0, -1);
-        UpdatePosition();
+        Transform transform = gameObject.GetComponent<Transform>();
+        Vector3 _position = transform.position;
+        Vector3 _eulerAngles = transform.eulerAngles;
 
-        snakeBodySpawner = new SnakeBodySpawner(SnakeBodyPrefab, playerController, gameWorldController);
-        snakeBodySpawner.Spawn(gameObject);
+        float speed = 1f;
+        if (ConsumablePowerUpTypeFind(ConsumablePowerUpType.SpeedUp) == ConsumablePowerUpType.SpeedUp)
+        {
+            speed = 2f;
+        }
 
-        // IncrementSnakeBody(25);
+        if (h_direction != 0)
+        {
+            _position.x += h_direction * Time.deltaTime * speed;
+            _eulerAngles = new Vector3(0, 0, h_direction == 1 ? 270 : 90);
+        }
+        else
+        {
+            _position.y += v_direction * Time.deltaTime * speed;
+            _eulerAngles = new Vector3(0, 0, v_direction == 1 ? 0 : 180);
+        }
+
+        position = WrapPosition(_position);
+        eulerAngles = _eulerAngles;
     }
 
     void LateUpdate()
     {
-        UpdatePosition();
-        snakeBodySpawner.UpdatePosition();
-    }
-
-    void UpdatePosition()
-    {
         Transform transform = gameObject.GetComponent<Transform>();
-        Vector3 position = transform.position;
-        Vector3 eulerAngles = transform.eulerAngles;
-
-        if (h_direction != 0)
-        {
-            position.x += h_direction * Time.deltaTime;
-            eulerAngles = new Vector3(0, 0, h_direction == 1 ? 270 : 90);
-        }
-        else
-        {
-            position.y += v_direction * Time.deltaTime;
-            eulerAngles = new Vector3(0, 0, v_direction == 1 ? 0 : 180);
-
-        }
-
-        position = WrapPosition(position);
         transform.position = position;
         transform.eulerAngles = eulerAngles;
     }
 
-    Vector3 WrapPosition(Vector3 position)
+    void OnDestroy()
     {
-        if (position.x < gameWorldController.GetLeftEdgePosition())
-            position.x = gameWorldController.GetRightEdgePosition();
-        else if (position.x > gameWorldController.GetRightEdgePosition())
-            position.x = gameWorldController.GetLeftEdgePosition();
-        else if (position.y < gameWorldController.GetBottomEdgePosition())
-            position.y = gameWorldController.GetTopEdgePosition();
-        else if (position.y > gameWorldController.GetTopEdgePosition())
-            position.y = gameWorldController.GetBottomEdgePosition();
+        Destroy(gameObject);
+    }
 
-        return position;
+    public void Consume(ConsumableController consumable)
+    {
+        if (SnakeBodyHandler == null)
+            return;
+
+        SnakeBodyHandler.Consume(consumable);
     }
 
     public void PositionHandler(float horizontal, float vertical)
@@ -97,31 +101,36 @@ public class SnakeHeadController : MonoBehaviour
         }
     }
 
-    public void IncrementSnakeBody(int size)
+    public void ConsumablePowerUpTypeRemove(ConsumablePowerUpType _consumablePowerUpType)
     {
-        if (snakeBodySpawner == null)
-            throw new Exception("snakeBodySpawner is null!");
-        for (int i = 0; i < size; i++)
-        {
-            snakeBodySpawner.Spawn();
-        }
+        consumablePowerUpType.Remove(_consumablePowerUpType);
+    }
+    public void ConsumablePowerUpTypeAdd(ConsumablePowerUpType _consumablePowerUpType)
+    {
+        consumablePowerUpType.Add(_consumablePowerUpType);
     }
 
-    public void DecrementSnakeBody(int size)
+    public ConsumablePowerUpType ConsumablePowerUpTypeFind(ConsumablePowerUpType _consumablePowerUpType)
     {
-        if (snakeBodySpawner == null)
-            throw new Exception("snakeBodySpawner is null!");
-        for (int i = 0; i < size; i++)
-        {
-            snakeBodySpawner.DeSpawn();
-        }
+        return consumablePowerUpType.Find(e => e == _consumablePowerUpType);
     }
 
-    public void Kill(GameObject gameObject)
+    Vector3 WrapPosition(Vector3 position)
     {
-        // for (int i = 0; i < snakeBodySpawner.Length; i++)
-        // {
-        //     snakeBodySpawner.DeSpawn();
-        // }
+        if (GameWorld.Instance == null)
+            return position;
+
+        GameWorld gameWorld = GameWorld.Instance;
+
+        if (position.x < gameWorld.GetLeftEdgePosition())
+            position.x = gameWorld.GetRightEdgePosition();
+        else if (position.x > gameWorld.GetRightEdgePosition())
+            position.x = gameWorld.GetLeftEdgePosition();
+        else if (position.y < gameWorld.GetBottomEdgePosition())
+            position.y = gameWorld.GetTopEdgePosition();
+        else if (position.y > gameWorld.GetTopEdgePosition())
+            position.y = gameWorld.GetBottomEdgePosition();
+
+        return position;
     }
 }

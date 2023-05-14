@@ -1,50 +1,46 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-
-    public GameObject SnakeHeadPrefab;
+    public SnakeHeadController SnakeHeadController;
+    public WorldController WorldController;
     public string InputHorizontalName, InputVerticalName;
-    public GameWorldController gameWorldController;
+    public Vector3 position = new Vector3(0, 0, -1);
 
-    private GameMode gameMode;
-    public GameMode GameMode { get { return gameMode; } set { gameMode = value; } }
-
-    private GameObject snakeHead;
-
-    void Awake()
+    public int Score
     {
-
+        get
+        {
+            if (gameObject.GetComponentInChildren<ScoreController>() != null)
+                return gameObject.GetComponentInChildren<ScoreController>().Score;
+            return 0;
+        }
     }
 
     void Start()
     {
-        snakeHead = Instantiate(SnakeHeadPrefab);
-        snakeHead.GetComponent<SnakeHeadController>().GameWorldController = gameWorldController;
-        snakeHead.GetComponent<SnakeHeadController>().PlayerController = gameObject.GetComponent<PlayerController>();
+        SnakeHeadController.Position = position;
     }
 
     void Update()
     {
-        // Debug.Log(
-        //     "Top: " + gameWorldController.GetTopEdgePosition() +
-        //     "\tBottom: " + gameWorldController.GetBottomEdgePosition() +
-        //     "\tLeft: " + gameWorldController.GetLeftEdgePosition() +
-        //     "\tRight: " + gameWorldController.GetRightEdgePosition()
-        // );
-        inputHandler();
-    }
-
-    void inputHandler()
-    {
         float horizontal = Input.GetAxisRaw(InputHorizontalName);
         float vertical = Input.GetAxisRaw(InputVerticalName);
 
-        snakeHead.GetComponent<SnakeHeadController>().PositionHandler(horizontal, vertical);
+        SnakeHeadController.PositionHandler(horizontal, vertical);
     }
 
-    public bool isAlive()
+    void OnDestroy()
     {
-        return true;
+        Destroy(gameObject);
+    }
+
+    public void GameOver()
+    {
+        if (WorldController == null)
+            return;
+        // WorldController.GameOver();
     }
 }

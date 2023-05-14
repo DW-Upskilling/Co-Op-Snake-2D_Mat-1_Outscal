@@ -4,69 +4,53 @@ using UnityEngine;
 
 public class ConsumableController : MonoBehaviour
 {
-    public GameWorldController gameWorldController;
-    public ConsumableSpawner consumableSpawner;
-    public ConsumableType consumableType;
+    public ConsumableType ConsumableType
+    {
+        set { consumableType = value; }
+        get { return consumableType; }
+    }
+    public ConsumablePowerUpType ConsumablePowerUpType
+    {
+        set { consumablePowerUpType = value; }
+        get { return consumablePowerUpType; }
+    }
+    public float PowerUpCoolDown
+    {
+        set { powerUpCoolDown = value; }
+        get { return powerUpCoolDown; }
+    }
+    public Sprite Sprite { set { SetSprite(value); } }
+
+    private ConsumableType consumableType;
+    private ConsumablePowerUpType consumablePowerUpType;
+    private float powerUpCoolDown = 3;
+
+    void Start()
+    {
+        PositionHandler();
+    }
 
     void OnDestroy()
     {
-        if (consumableSpawner != null)
-            consumableSpawner.Spawn();
+        Destroy(gameObject);
     }
 
     void OnTriggerEnter2D(Collider2D collider)
     {
-        // Debug.Log("OnTriggerEnter2D: " + collider.gameObject.name);
-        // if (collider.gameObject.GetComponent<ConsumableController>() != null)
-        // {
-        //     SetRandomPosition();
-        // }
+        if (collider.gameObject.GetComponent<ConsumableController>() != null)
+        {
+            PositionHandler();
+        }
         if (collider.gameObject.GetComponent<SnakeHeadController>() != null)
         {
-            SnakeHeadController snakeHeadController = collider.gameObject.GetComponent<SnakeHeadController>();
-            switch (consumableType)
-            {
-                case ConsumableType.Gainer:
-                    snakeHeadController.IncrementSnakeBody(1);
-                    break;
-                case ConsumableType.Burner:
-                    snakeHeadController.DecrementSnakeBody(1);
-                    break;
-            }
+            SnakeHeadController snakeHead = collider.gameObject.GetComponent<SnakeHeadController>();
+
+            snakeHead.Consume(gameObject.GetComponent<ConsumableController>());
             Destroy(gameObject);
         }
     }
 
-    void OnTriggerExit2D(Collider2D collider)
-    {
-        // Debug.Log("OnTriggerExit2D: " + collider.gameObject.name);
-        // if (collider.gameObject.GetComponent<ConsumableController>() != null)
-        // {
-        //     SetRandomPosition();
-        // }
-    }
-
-    public void SetRandomPosition()
-    {
-        if (gameWorldController == null)
-            return;
-
-        // Debug.Log(
-        //     "Top: " + gameWorldController.GetTopEdgePosition() +
-        //     "\tBottom: " + gameWorldController.GetBottomEdgePosition() +
-        //     "\tLeft: " + gameWorldController.GetLeftEdgePosition() +
-        //     "\tRight: " + gameWorldController.GetRightEdgePosition()
-        // );
-
-        Vector3 position = new Vector3(
-            Random.Range(gameWorldController.GetLeftEdgePosition(), gameWorldController.GetRightEdgePosition()),
-            Random.Range(gameWorldController.GetBottomEdgePosition(), gameWorldController.GetTopEdgePosition()),
-            -1.0f
-        );
-        gameObject.GetComponent<Transform>().position = position;
-    }
-
-    public void SetSprite(Sprite sprite)
+    void SetSprite(Sprite sprite)
     {
         SpriteRenderer spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
         if (spriteRenderer == null)
@@ -76,13 +60,47 @@ public class ConsumableController : MonoBehaviour
         switch (consumableType)
         {
             case ConsumableType.Burner:
-                // Red Color to the Burner Consumable
                 spriteRenderer.color = Color.red;
                 break;
             case ConsumableType.Gainer:
-                // Green Color to the Gainer Consumable
                 spriteRenderer.color = Color.green;
                 break;
+            case ConsumableType.PowerUp:
+                spriteRenderer.color = Color.blue;
+                break;
         }
+    }
+
+    void PositionHandler()
+    {
+        if (GameWorld.Instance == null)
+            return;
+
+        GameWorld gameWorld = GameWorld.Instance;
+
+        Vector3 position = new Vector3(
+            Random.Range(gameWorld.GetLeftEdgePosition(), gameWorld.GetRightEdgePosition()),
+            Random.Range(gameWorld.GetBottomEdgePosition(), gameWorld.GetTopEdgePosition()),
+            -1.0f
+        );
+        gameObject.GetComponent<Transform>().position = position;
+    }
+
+    public void LifeTime(float remainingOpacity, float remainingScale)
+    {
+        SpriteRenderer spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+        if (spriteRenderer == null)
+            spriteRenderer = gameObject.AddComponent<SpriteRenderer>();
+
+        Color spriteColor = spriteRenderer.color;
+        Vector3 initialScale = new Vector3(1, 1, 1);
+
+        // Update opacity
+        spriteColor.a = remainingOpacity;
+        spriteRenderer.color = spriteColor;
+
+        // Update scale
+        Vector3 newScale = initialScale * remainingScale;
+        transform.localScale = newScale;
     }
 }
