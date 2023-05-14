@@ -5,16 +5,14 @@ using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
-
     private static AudioManager instance;
-    public static AudioManager Instance { get { if (instance == null) instance = new AudioManager(); return instance; } }
+    public static AudioManager Instance { get { return instance; } }
 
     public Sound[] soundsList;
     public string backgroundMusicName;
 
     void Awake()
     {
-
         if (instance == null)
         {
             instance = this;

@@ -58,7 +58,8 @@ public class WorldController : MonoBehaviour
 
     public void GameOver()
     {
-        AudioManager.Instance.Play("GameOver");
+        if (AudioManager.Instance)
+            AudioManager.Instance.Play("GameOver");
 
         if (gameObject.GetComponentInChildren<ConsumableSpawner>() != null)
             gameObject.GetComponentInChildren<ConsumableSpawner>().enabled = false;

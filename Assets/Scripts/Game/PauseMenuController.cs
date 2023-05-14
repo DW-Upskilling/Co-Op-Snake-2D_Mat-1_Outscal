@@ -13,7 +13,8 @@ public class PauseMenuController : MonoBehaviour
 
     void Awake()
     {
-        AudioManager.Instance.Play("Whoosh");
+        if (AudioManager.Instance)
+            AudioManager.Instance.Play("Whoosh");
         if (ResumeButton != null)
             ResumeButton.onClick.AddListener(ResumeScene);
         if (RestartButton != null)
@@ -24,21 +25,24 @@ public class PauseMenuController : MonoBehaviour
 
     void ResumeScene()
     {
-        AudioManager.Instance.Play("ButtonClick");
+        if (AudioManager.Instance)
+            AudioManager.Instance.Play("ButtonClick");
         if (WorldController != null)
             WorldController.TogglePauseScreen();
     }
 
     void ReloadLoadCurrentScene()
     {
-        AudioManager.Instance.Play("ButtonClick");
+        if (AudioManager.Instance)
+            AudioManager.Instance.Play("ButtonClick");
         int currentSceneBuildIndex = SceneManager.GetActiveScene().buildIndex;
         SceneManager.LoadSceneAsync(currentSceneBuildIndex);
     }
 
     void LoadMainMenuScene()
     {
-        AudioManager.Instance.Play("ButtonClick");
+        if (AudioManager.Instance)
+            AudioManager.Instance.Play("ButtonClick");
         if (MenuSceneBuildIndex > 0 && MenuSceneBuildIndex < SceneManager.sceneCountInBuildSettings)
             SceneManager.LoadSceneAsync(MenuSceneBuildIndex);
     }

@@ -67,11 +67,11 @@ public class SnakeBodyHandler : MonoBehaviour
 
     void LateUpdate()
     {
-        for (int i = 0; i < snakeBody.Count; i++)
-        {
-            snakeBody[i].GetComponent<SnakeBodyController>().Position = snakeBodyPosition[i];
-            snakeBody[i].GetComponent<SnakeBodyController>().Rotation = snakeBodyRotation[i];
-        }
+        // for (int i = 0; i < snakeBody.Count; i++)
+        // {
+        //     snakeBody[i].GetComponent<SnakeBodyController>().Position = snakeBodyPosition[i];
+        //     snakeBody[i].GetComponent<SnakeBodyController>().Rotation = snakeBodyRotation[i];
+        // }
     }
 
     void Spawn()
@@ -113,7 +113,8 @@ public class SnakeBodyHandler : MonoBehaviour
 
     public void Consume(ConsumableController consumable)
     {
-        AudioManager.Instance.Play("Consume");
+        if (AudioManager.Instance)
+            AudioManager.Instance.Play("Consume");
         switch (consumable.ConsumableType)
         {
             case ConsumableType.Burner:

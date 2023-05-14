@@ -9,13 +9,15 @@ public class InitialSceneController : MonoBehaviour
 
     void Awake()
     {
-        AudioManager.Instance.Play("Explosion");
+        if (AudioManager.Instance)
+            AudioManager.Instance.Play("Explosion");
     }
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            AudioManager.Instance.Play("ButtonClick");
+            if (AudioManager.Instance)
+                AudioManager.Instance.Play("ButtonClick");
             if (MenuSceneBuildIndex > 0 && MenuSceneBuildIndex < SceneManager.sceneCountInBuildSettings)
                 SceneManager.LoadSceneAsync(MenuSceneBuildIndex);
         }
