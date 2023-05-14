@@ -29,7 +29,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 3587107770287752991}
+  - {fileID: 637043297017504027}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -45,11 +45,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e95525eba333fd34f96794e4db3fbfd3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  WorldController: {fileID: 0}
-  SnakeHeadController: {fileID: 545055205265845818, guid: 40ecb8baa8d63db4399798eb76e51b74, type: 3}
+  SnakeHeadController: {fileID: 4730615430095493866}
   InputHorizontalName: 
   InputVerticalName: 
---- !u!1001 &9162051701359104724
+--- !u!1001 &5059487938154067152
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -106,8 +105,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 40ecb8baa8d63db4399798eb76e51b74, type: 3}
---- !u!4 &3587107770287752991 stripped
+--- !u!4 &637043297017504027 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5684056175135315403, guid: 40ecb8baa8d63db4399798eb76e51b74, type: 3}
-  m_PrefabInstance: {fileID: 9162051701359104724}
+  m_PrefabInstance: {fileID: 5059487938154067152}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &4730615430095493866 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 545055205265845818, guid: 40ecb8baa8d63db4399798eb76e51b74, type: 3}
+  m_PrefabInstance: {fileID: 5059487938154067152}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e9c672b84defb640b37656b2108bf08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

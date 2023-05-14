@@ -7,6 +7,7 @@ public class SnakeHeadController : MonoBehaviour
     public SnakeBodySpawner SnakeBodySpawner;
 
     private int h_direction, v_direction;
+    private Vector3 position, eulerAngles;
 
     void Awake()
     {
@@ -21,25 +22,28 @@ public class SnakeHeadController : MonoBehaviour
 
     void Update()
     {
-        Debug.Log(h_direction + "\t" + v_direction);
-
         Transform transform = gameObject.GetComponent<Transform>();
-        Vector3 position = transform.position;
-        Vector3 eulerAngles = transform.eulerAngles;
+        Vector3 _position = transform.position;
+        Vector3 _eulerAngles = transform.eulerAngles;
 
         if (h_direction != 0)
         {
-            position.x += h_direction * Time.deltaTime;
-            eulerAngles = new Vector3(0, 0, h_direction == 1 ? 270 : 90);
+            _position.x += h_direction * Time.deltaTime;
+            _eulerAngles = new Vector3(0, 0, h_direction == 1 ? 270 : 90);
         }
         else
         {
-            position.y += v_direction * Time.deltaTime;
-            eulerAngles = new Vector3(0, 0, v_direction == 1 ? 0 : 180);
-
+            _position.y += v_direction * Time.deltaTime;
+            _eulerAngles = new Vector3(0, 0, v_direction == 1 ? 0 : 180);
         }
 
-        position = WrapPosition(position);
+        position = WrapPosition(_position);
+        eulerAngles = _eulerAngles;
+    }
+
+    void LateUpdate()
+    {
+        Transform transform = gameObject.GetComponent<Transform>();
         transform.position = position;
         transform.eulerAngles = eulerAngles;
     }
@@ -47,6 +51,14 @@ public class SnakeHeadController : MonoBehaviour
     void OnDestroy()
     {
         Destroy(gameObject);
+    }
+
+    public void Consume(ConsumableController consumable)
+    {
+        if (SnakeBodySpawner == null)
+            return;
+
+        SnakeBodySpawner.Consume(consumable);
     }
 
     public void PositionHandler(float horizontal, float vertical)

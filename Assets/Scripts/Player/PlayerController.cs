@@ -14,10 +14,4 @@ public class PlayerController : MonoBehaviour
 
         SnakeHeadController.PositionHandler(horizontal, vertical);
     }
-
-    void OnDestroy()
-    {
-        Destroy(SnakeHeadController);
-        Destroy(gameObject);
-    }
 }

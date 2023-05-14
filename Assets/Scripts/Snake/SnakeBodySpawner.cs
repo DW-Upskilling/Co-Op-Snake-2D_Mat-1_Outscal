@@ -1,68 +1,40 @@
-using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-public class SnakeBodySpawner
+
+public class SnakeBodySpawner : MonoBehaviour
 {
-    private GameObject SnakeBodyPrefab;
-    private GameWorldController gameWorldController;
-    private PlayerController playerController;
-    private GameObject tail;
-    private int length = 0;
-    public int Length { get { return length; } }
 
-    public SnakeBodySpawner(GameObject _snakeBodyPrefab, PlayerController _playerController, GameWorldController _gameWorldController)
+    public void Consume(ConsumableController consumable)
     {
-        SnakeBodyPrefab = _snakeBodyPrefab;
-        playerController = _playerController;
-        gameWorldController = _gameWorldController;
+        switch (consumable.ConsumableType)
+        {
+            case ConsumableType.Burner:
+                Debug.Log("Burner");
+                break;
+            case ConsumableType.Gainer:
+                Debug.Log("Gainer");
+                break;
+            case ConsumableType.PowerUp:
+                Debug.Log("PowerUp");
+                ActivatePowerUp(consumable);
+                break;
+        }
     }
 
-    public void Spawn(GameObject parent)
+    void ActivatePowerUp(ConsumableController consumable)
     {
-        if (tail != null)
-            throw new Exception("Tail is not null!");
-
-        tail = GameObject.Instantiate(SnakeBodyPrefab);
-        tail.GetComponent<SnakeBodyController>().GameWorldController = gameWorldController;
-        tail.GetComponent<SnakeBodyController>().Parent = parent;
-        tail.name = "SnakeBody " + length;
-        length += 1;
+        switch (consumable.ConsumablePowerUpType)
+        {
+            case ConsumablePowerUpType.Shield:
+                Debug.Log("Shield");
+                break;
+            case ConsumablePowerUpType.ScoreBoost:
+                Debug.Log("ScoreBoost");
+                break;
+            case ConsumablePowerUpType.SpeedUp:
+                Debug.Log("SpeedUp");
+                break;
+        }
     }
-
-    public void Spawn()
-    {
-        if (tail == null)
-            throw new Exception("Tail is null!");
-
-        GameObject _tail = GameObject.Instantiate(SnakeBodyPrefab);
-        _tail.GetComponent<SnakeBodyController>().GameWorldController = gameWorldController;
-        _tail.name = "Body " + length;
-
-        tail.GetComponent<SnakeBodyController>().Child = _tail;
-        _tail.GetComponent<SnakeBodyController>().Parent = tail;
-
-        tail = _tail;
-        length += 1;
-    }
-
-    public void DeSpawn()
-    {
-        if (tail == null || tail.GetComponent<SnakeBodyController>() == null)
-            return;
-
-        GameObject parent = tail.GetComponent<SnakeBodyController>().Parent;
-        if (parent.GetComponent<SnakeBodyController>() == null)
-            return;
-
-        tail = parent;
-        GameObject.Destroy(tail.GetComponent<SnakeBodyController>().Child);
-        length -= 1;
-    }
-
-    public void UpdatePosition()
-    {
-        if (tail != null && tail.GetComponent<SnakeBodyController>() != null)
-            tail.GetComponent<SnakeBodyController>().UpdatePosition();
-    }
-
 }

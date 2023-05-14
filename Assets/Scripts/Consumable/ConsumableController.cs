@@ -21,6 +21,21 @@ public class ConsumableController : MonoBehaviour
         Destroy(gameObject);
     }
 
+    void OnTriggerEnter2D(Collider2D collider)
+    {
+        if (collider.gameObject.GetComponent<ConsumableController>() != null)
+        {
+            PositionHandler();
+        }
+        if (collider.gameObject.GetComponent<SnakeHeadController>() != null)
+        {
+            SnakeHeadController snakeHead = collider.gameObject.GetComponent<SnakeHeadController>();
+
+            snakeHead.Consume(gameObject.GetComponent<ConsumableController>());
+            Destroy(gameObject);
+        }
+    }
+
     void SetSprite(Sprite sprite)
     {
         SpriteRenderer spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
@@ -55,5 +70,23 @@ public class ConsumableController : MonoBehaviour
             -1.0f
         );
         gameObject.GetComponent<Transform>().position = position;
+    }
+
+    public void LifeTime(float remainingOpacity, float remainingScale)
+    {
+        SpriteRenderer spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+        if (spriteRenderer == null)
+            spriteRenderer = gameObject.AddComponent<SpriteRenderer>();
+
+        Color spriteColor = spriteRenderer.color;
+        Vector3 initialScale = new Vector3(1, 1, 1);
+
+        // Update opacity
+        spriteColor.a = remainingOpacity;
+        spriteRenderer.color = spriteColor;
+
+        // Update scale
+        Vector3 newScale = initialScale * remainingScale;
+        transform.localScale = newScale;
     }
 }

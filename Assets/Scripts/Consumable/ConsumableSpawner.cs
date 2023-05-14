@@ -30,11 +30,12 @@ public class ConsumableSpawner : MonoBehaviour
 
     ConsumableController SpawnFood()
     {
+        // Randomly select a consumable type
         Array ConsumableTypes = Enum.GetValues(typeof(ConsumableType));
         int randomIndex = UnityEngine.Random.Range(0, ConsumableTypes.Length);
-
         ConsumableType consumableType = (ConsumableType)ConsumableTypes.GetValue(randomIndex);
 
+        // Instantiate the consumable prefab
         ConsumableController consumable = Instantiate(ConsumablePrefab).GetComponent<ConsumableController>();
 
         switch (consumableType)
@@ -48,6 +49,7 @@ public class ConsumableSpawner : MonoBehaviour
                 consumable.Sprite = GainerSprite[UnityEngine.Random.Range(0, GainerSprite.Length)];
                 break;
             case ConsumableType.PowerUp:
+                // If power-up type is selected, destroy the consumable and try spawning a food consumable instead
                 Destroy(consumable);
                 consumable = SpawnFood();
                 break;
@@ -58,11 +60,12 @@ public class ConsumableSpawner : MonoBehaviour
 
     ConsumableController SpawnPowerUp()
     {
+        // Randomly select a power-up type
         Array ConsumablePowerUpTypes = Enum.GetValues(typeof(ConsumablePowerUpType));
         int randomIndex = UnityEngine.Random.Range(0, ConsumablePowerUpTypes.Length);
-
         ConsumablePowerUpType consumablePowerUpType = (ConsumablePowerUpType)ConsumablePowerUpTypes.GetValue(randomIndex);
 
+        // Instantiate the consumable prefab
         ConsumableController consumable = Instantiate(ConsumablePrefab).GetComponent<ConsumableController>();
         consumable.ConsumableType = ConsumableType.PowerUp;
 
@@ -91,14 +94,18 @@ public class ConsumableSpawner : MonoBehaviour
         {
             yield return new WaitForSeconds(SpawnIntervalFood);
 
+            // Check if the consumable pool has reached the maximum limit
             if (consumablePool >= MaxConsumables)
                 continue;
 
+            // Lock the consumable pool to ensure thread safety
             lock (lockObject)
             {
+                // Spawn a food consumable and increment
                 ConsumableController consumable = SpawnFood();
                 consumablePool++;
 
+                // Start the despawn coroutine for the spawned consumable
                 StartCoroutine(DeSpawnCoroutine(consumable, SpawnIntervalFood * 10f));
             }
 
@@ -109,28 +116,49 @@ public class ConsumableSpawner : MonoBehaviour
     {
         while (true)
         {
+            // Determine the current interval for spawning power-ups
             float currentInterval = UnityEngine.Random.Range(SpawnIntervalPowerUpMin, SpawnIntervalPowerUpMax + 1f);
             yield return new WaitForSeconds(currentInterval);
 
+            // Check if the consumable pool has reached the maximum limit
             if (consumablePool >= MaxConsumables)
                 continue;
 
+            // Lock the consumable pool to ensure thread safety
             lock (lockObject)
             {
+                // Spawn a power-up consumable
                 ConsumableController consumable = SpawnPowerUp();
                 consumablePool++;
 
+                // Start the despawn coroutine for the spawned consumable
                 StartCoroutine(DeSpawnCoroutine(consumable, ((SpawnIntervalPowerUpMin + SpawnIntervalPowerUpMax) / 2) * 10f));
             }
         }
     }
 
-    IEnumerator DeSpawnCoroutine(ConsumableController consumable, float interval)
+    IEnumerator DeSpawnCoroutine(ConsumableController consumable, float maxTimeInSeconds)
     {
-        yield return new WaitForSeconds(interval);
+        float startTime = Time.time;
+        float elapsedTime = 0f;
+
+        while (consumable != null && elapsedTime < maxTimeInSeconds)
+        {
+            elapsedTime = Time.time - startTime;
+
+            // Calculate decrease rates based on elapsed time
+            float remainingOpacity = (maxTimeInSeconds - elapsedTime) / maxTimeInSeconds;
+            float remainingScale = (maxTimeInSeconds - elapsedTime) / maxTimeInSeconds;
+
+            // Invoke the LifeTime of the consumable
+            consumable.LifeTime(remainingOpacity, remainingScale);
+
+            yield return null;
+        }
         lock (lockObject)
         {
-            Destroy(consumable);
+            if (consumable != null)
+                Destroy(consumable);
             consumablePool--;
         }
     }
