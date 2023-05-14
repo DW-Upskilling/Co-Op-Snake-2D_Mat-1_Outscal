@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SnakeHeadController : MonoBehaviour
 {
-    public SnakeBodySpawner SnakeBodySpawner;
+    public SnakeBodyHandler SnakeBodyHandler;
 
     private int h_direction, v_direction;
     private Vector3 position, eulerAngles;
@@ -55,10 +55,10 @@ public class SnakeHeadController : MonoBehaviour
 
     public void Consume(ConsumableController consumable)
     {
-        if (SnakeBodySpawner == null)
+        if (SnakeBodyHandler == null)
             return;
 
-        SnakeBodySpawner.Consume(consumable);
+        SnakeBodyHandler.Consume(consumable);
     }
 
     public void PositionHandler(float horizontal, float vertical)

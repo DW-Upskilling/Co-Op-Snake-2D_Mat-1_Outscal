@@ -100,7 +100,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e9c672b84defb640b37656b2108bf08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SnakeBodySpawner: {fileID: 4519410674329105090}
+  SnakeBodyHandler: {fileID: 4519410674329105090}
 --- !u!60 &4869961359593078980
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -192,3 +192,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 531f23ace8d7fc9469755591f6c3d308, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SnakeBodyPrefab: {fileID: 7575240939805497617, guid: 79d9376debfb3ee42b6fe746985c3ace, type: 3}
