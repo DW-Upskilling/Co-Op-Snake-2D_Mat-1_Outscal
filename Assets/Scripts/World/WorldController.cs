@@ -7,6 +7,8 @@ public class WorldController : MonoBehaviour
 {
 
     public int GameOverSceneBuildIndex;
+    public GameObject PauseScreen;
+    public GameObject[] RemainingObjects;
 
     private float screenWidth, screenHeight;
 
@@ -34,6 +36,24 @@ public class WorldController : MonoBehaviour
 
         // Set the scale of the GameWorld to match the screen dimensions
         transform.localScale = new Vector3(screenWidth / 2, screenHeight / 2, 1f);
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            TogglePauseScreen();
+        }
+    }
+
+    public void TogglePauseScreen()
+    {
+        bool currentToggle = !PauseScreen.activeSelf;
+        PauseScreen.SetActive(currentToggle);
+        for (int i = 0; i < RemainingObjects.Length; i++)
+        {
+            RemainingObjects[i].SetActive(!currentToggle);
+        }
     }
 
     public void GameOver()
