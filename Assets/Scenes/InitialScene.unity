@@ -123,6 +123,108 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &248238044
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 248238046}
+  - component: {fileID: 248238045}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &248238045
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 248238044}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4b37a998c3cf4e47b12076ab4f3423c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundsList:
+  - name: ButtonClick
+    clip: {fileID: 8300000, guid: 24d73765699ce3e46bb23cabc3a46494, type: 3}
+    volume: 1
+    pitch: 1
+    priority: 0
+    loop: 0
+    mute: 0
+    source: {fileID: 0}
+  - name: GameOver
+    clip: {fileID: 8300000, guid: 832aa39d4fbe053428a67083bb091a1a, type: 3}
+    volume: 1
+    pitch: 0.8
+    priority: 1
+    loop: 0
+    mute: 0
+    source: {fileID: 0}
+  - name: Consume
+    clip: {fileID: 8300000, guid: 5ab8fc664ca4d604f820e255005a664a, type: 3}
+    volume: 1
+    pitch: 1
+    priority: 0
+    loop: 0
+    mute: 0
+    source: {fileID: 0}
+  - name: Whoosh
+    clip: {fileID: 8300000, guid: 2ebf2421dddc15a45b7fc6ae8197b1c0, type: 3}
+    volume: 1
+    pitch: 1
+    priority: 0
+    loop: 0
+    mute: 0
+    source: {fileID: 0}
+  - name: Spawn
+    clip: {fileID: 8300000, guid: c134bf6bd85561b4b938c913b97b57c9, type: 3}
+    volume: 1
+    pitch: 1
+    priority: 0
+    loop: 0
+    mute: 0
+    source: {fileID: 0}
+  - name: BackgroundMusic
+    clip: {fileID: 8300000, guid: 0651b56880a11ef45909b779443691aa, type: 3}
+    volume: 0.3
+    pitch: 1
+    priority: 0
+    loop: 0
+    mute: 0
+    source: {fileID: 0}
+  - name: Explosion
+    clip: {fileID: 8300000, guid: d1698dd553af8ef4d887bc83b9687173, type: 3}
+    volume: 1
+    pitch: 1
+    priority: 3
+    loop: 0
+    mute: 0
+    source: {fileID: 0}
+  backgroundMusicName: BackgroundMusic
+--- !u!4 &248238046
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 248238044}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2.4898515, y: -3.4542878, z: 3.8551831}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &455638274
 GameObject:
   m_ObjectHideFlags: 0
@@ -204,6 +306,7 @@ GameObject:
   - component: {fileID: 1052020804}
   - component: {fileID: 1052020803}
   - component: {fileID: 1052020807}
+  - component: {fileID: 1052020808}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -306,6 +409,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MenuSceneBuildIndex: 1
+--- !u!81 &1052020808
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1052020802}
+  m_Enabled: 1
 --- !u!1 &2026438867
 GameObject:
   m_ObjectHideFlags: 0

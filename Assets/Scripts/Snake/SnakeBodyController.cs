@@ -22,7 +22,13 @@ public class SnakeBodyController : MonoBehaviour
 
     void Awake()
     {
-        gameObject.GetComponent<Transform>().position = new Vector3(0, 0, -1);
+        if (GameWorld.Instance == null)
+            throw new System.Exception("You need to get a life!");
+        gameObject.GetComponent<Transform>().position = new Vector3(
+            GameWorld.Instance.GetRightEdgePosition() + 5,
+            GameWorld.Instance.GetBottomEdgePosition() + 5,
+            -1
+        );
     }
 
     void OnCollisionEnter2D(Collision2D collider)
