@@ -47,6 +47,6 @@ public class PlayerController : MonoBehaviour
     {
         if (WorldController == null)
             return;
-        // WorldController.GameOver();
+        WorldController.GameOver();
     }
 }
