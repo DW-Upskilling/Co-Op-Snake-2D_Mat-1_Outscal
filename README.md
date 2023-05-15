@@ -53,3 +53,4 @@ Here comes spice ©️ Malhar's Game Design 😎
 #
 
 Demo: [YouTube Link](https://youtu.be/b7XjwDTQsTY)
+Play: [Itch.io](https://developerswork.itch.io/coop-snake-2d)
