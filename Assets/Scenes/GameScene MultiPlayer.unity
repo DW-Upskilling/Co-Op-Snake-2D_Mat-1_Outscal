@@ -130,6 +130,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2327853023209795665, guid: 5d3c1f5cdaf5fb94a9e7335749da4dee, type: 3}
+      propertyPath: SnakeBodySize
+      value: 1.15
+      objectReference: {fileID: 0}
     - target: {fileID: 5987861308194519712, guid: 5d3c1f5cdaf5fb94a9e7335749da4dee, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -452,6 +456,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2327853023209795665, guid: 5d3c1f5cdaf5fb94a9e7335749da4dee, type: 3}
+      propertyPath: SnakeBodySize
+      value: 1.15
+      objectReference: {fileID: 0}
     - target: {fileID: 5987861308194519712, guid: 5d3c1f5cdaf5fb94a9e7335749da4dee, type: 3}
       propertyPath: m_RootOrder
       value: 2

@@ -10,78 +10,14 @@ public class SnakeBodyHandler : MonoBehaviour
 
     private List<GameObject> snakeBody;
     private List<Vector3> snakeBodyPosition;
-    private Vector3 snakeHeadPosition;
     private List<Quaternion> snakeBodyRotation;
-    private Quaternion snakeHeadRotation;
     private int scoreMultiplier = 1;
-    private float maxTime, currentSegmentTime;
 
     void Awake()
     {
         snakeBody = new List<GameObject>();
-        maxTime = 1f;
-        currentSegmentTime = 0f;
-    }
-
-    void Start()
-    {
-        snakeHeadPosition = gameObject.GetComponent<Transform>().position;
-        snakeHeadRotation = gameObject.GetComponent<Transform>().rotation;
-    }
-
-    void Update()
-    {
-        currentSegmentTime += Time.deltaTime;
-
         snakeBodyPosition = new List<Vector3>();
         snakeBodyRotation = new List<Quaternion>();
-
-        SnakeBodyController currentBody;
-        Vector3 currentPosition, previousPosition;
-        Quaternion currentRotation, previousRotation;
-        Vector3 currentEulerAngles, previousEulerAngles;
-
-        previousPosition = snakeHeadPosition;
-        previousEulerAngles = gameObject.GetComponent<Transform>().eulerAngles;
-        previousRotation = snakeHeadRotation;
-
-        for (int i = 0; i < snakeBody.Count; i++)
-        {
-            currentBody = snakeBody[i].GetComponent<SnakeBodyController>();
-            currentPosition = currentBody.Position;
-            currentEulerAngles = currentBody.EulerAngles;
-            currentRotation = currentBody.Rotation;
-
-            Vector3 nextPosition = new Vector3(
-                previousPosition.x + (previousEulerAngles.z == 90 ? SnakeBodySize : 0) + (previousEulerAngles.z == 270 ? -SnakeBodySize : 0),
-                previousPosition.y + (previousEulerAngles.z == 180 ? SnakeBodySize : 0) + (previousEulerAngles.z == 0 ? -SnakeBodySize : 0),
-                previousPosition.z
-            );
-            nextPosition = currentPosition + (nextPosition - currentPosition) * Time.deltaTime;
-
-            Quaternion nextRotation = previousRotation;
-
-            if (currentRotation.z != previousRotation.z)
-            {
-                nextRotation = Quaternion.Lerp(previousRotation, currentRotation, 1f * Time.deltaTime);
-            }
-            else if (currentSegmentTime < maxTime || previousRotation.z % 90 != 0)
-            {
-                nextRotation = currentRotation;
-            }
-
-            snakeBodyPosition.Add(nextPosition);
-            snakeBodyRotation.Add(nextRotation);
-
-            previousPosition = currentPosition;
-            previousRotation = currentRotation;
-            previousEulerAngles = currentEulerAngles;
-        }
-
-        if (currentSegmentTime >= maxTime)
-        {
-            currentSegmentTime -= maxTime;
-        }
     }
 
     void LateUpdate()
@@ -91,9 +27,6 @@ public class SnakeBodyHandler : MonoBehaviour
             snakeBody[i].GetComponent<SnakeBodyController>().Position = snakeBodyPosition[i];
             snakeBody[i].GetComponent<SnakeBodyController>().Rotation = snakeBodyRotation[i];
         }
-
-        snakeHeadPosition = gameObject.GetComponent<Transform>().position;
-        snakeHeadRotation = gameObject.GetComponent<Transform>().rotation;
     }
 
     void OnDestroy()
@@ -104,6 +37,34 @@ public class SnakeBodyHandler : MonoBehaviour
             snakeBody.RemoveAt(i);
         }
 
+    }
+
+    public void UpdatePosition()
+    {
+
+        snakeBodyPosition = new List<Vector3>();
+        snakeBodyRotation = new List<Quaternion>();
+
+        Transform transform = gameObject.GetComponent<Transform>();
+        Vector3 position = transform.position;
+        Vector3 eulerAngles = transform.eulerAngles;
+        Quaternion rotation = transform.rotation;
+
+        for (int i = 0; i < snakeBody.Count; i++)
+        {
+            Vector3 currentPosition = new Vector3(
+                position.x + (eulerAngles.z == 90 ? SnakeBodySize : 0) + (eulerAngles.z == 270 ? -SnakeBodySize : 0),
+                position.y + (eulerAngles.z == 180 ? SnakeBodySize : 0) + (eulerAngles.z == 0 ? -SnakeBodySize : 0),
+                position.z
+            );
+            snakeBodyPosition.Add(currentPosition);
+            snakeBodyRotation.Add(rotation);
+
+            SnakeBodyController body = snakeBody[i].GetComponent<SnakeBodyController>();
+            position = currentPosition;
+            eulerAngles = body.EulerAngles;
+            rotation = body.Rotation;
+        }
     }
 
     void Spawn()
@@ -184,7 +145,6 @@ public class SnakeBodyHandler : MonoBehaviour
         StartCoroutine(DeActivatePowerUp(consumable, consumable.ConsumablePowerUpType));
 
     }
-
     IEnumerator DeActivatePowerUp(ConsumableController consumable, ConsumablePowerUpType consumablePowerUpType)
     {
         yield return new WaitForSeconds(consumable.PowerUpCoolDown);

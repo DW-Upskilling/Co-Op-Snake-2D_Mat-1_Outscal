@@ -23,16 +23,25 @@ public class SnakeHeadController : MonoBehaviour
 
     private int h_direction, v_direction;
     private List<ConsumablePowerUpType> consumablePowerUpType;
+    private float maxTime, currentTime;
 
     void Awake()
     {
         h_direction = 1;
         v_direction = 0;
         consumablePowerUpType = new List<ConsumablePowerUpType>();
+
+        maxTime = 0.5f;
+        currentTime = 0f;
     }
 
     void Update()
     {
+        currentTime += Time.deltaTime;
+
+        if (currentTime < maxTime)
+            return;
+
         Transform transform = gameObject.GetComponent<Transform>();
         Vector3 _position = transform.position;
         Vector3 _eulerAngles = transform.eulerAngles;
@@ -45,17 +54,22 @@ public class SnakeHeadController : MonoBehaviour
 
         if (h_direction != 0)
         {
-            _position.x += h_direction * Time.deltaTime * speed;
+            _position.x += h_direction * speed;
             _eulerAngles = new Vector3(0, 0, h_direction == 1 ? 270 : 90);
         }
         else
         {
-            _position.y += v_direction * Time.deltaTime * speed;
+            _position.y += v_direction * speed;
             _eulerAngles = new Vector3(0, 0, v_direction == 1 ? 0 : 180);
         }
 
         transform.position = WrapPosition(_position); ;
         transform.eulerAngles = _eulerAngles;
+
+        if (SnakeBodyHandler != null)
+            SnakeBodyHandler.UpdatePosition();
+
+        currentTime -= maxTime;
     }
 
     void OnDestroy()
